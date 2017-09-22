@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!-- use this appender if expanded log messages required with time, thread name etc -->
+    <appender name="CONSOLE_EXTENDED" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %5p | %t | %-55logger{55} | %m %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- use this appender if only messages required -->
+    <appender name="CONSOLE_SIMPLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%m %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ch.qos.logback" level="OFF"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_SIMPLE"/>
+    </root>
+
+</configuration>
