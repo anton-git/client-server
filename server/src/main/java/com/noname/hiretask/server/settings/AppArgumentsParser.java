@@ -68,7 +68,7 @@ public class AppArgumentsParser implements Parser {
         }
 
         try {
-            final int val = Integer.valueOf(value);
+            final int val = Integer.parseInt(value);
             if (val < MIN_PORT_NUMBER || val > MAX_PORT_NUMBER) {
                 throw new InitializationParameterException("port", InitializationExceptionReason.INCORRECT_RANGE);
             }
@@ -92,7 +92,7 @@ public class AppArgumentsParser implements Parser {
         }
 
         try {
-            final int val = Integer.valueOf(value);
+            final int val = Integer.parseInt(value);
             if (val < MIN_THREADS_COUNT_NUMBER || val > MAX_TREAD_COUNT_NUMBER) {
                 throw new InitializationParameterException("proc_count", InitializationExceptionReason.INCORRECT_RANGE);
             }

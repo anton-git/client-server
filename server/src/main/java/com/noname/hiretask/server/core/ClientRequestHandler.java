@@ -8,10 +8,7 @@ import com.noname.hiretask.server.executor.ExecutorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -37,8 +34,9 @@ class ClientRequestHandler {
         // socketSource parameter MUST be closed here so used in try-with-resources
         try (
                 final Socket socket = socketSource;
-                final PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-                final BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))
+                final Writer writer = new OutputStreamWriter(socket.getOutputStream(), "UTF-8");
+                final PrintWriter pw = new PrintWriter(writer, true);
+                final BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"))
         ) {
 
             try {

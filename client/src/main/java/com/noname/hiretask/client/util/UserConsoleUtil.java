@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import static com.noname.hiretask.client.settings.GlobalSettings.DEFAULT_CHARSET_NAME;
+
 /**
  * Class interacts with a user via console: gets data from user, and prints information for user.
  */
@@ -42,7 +44,7 @@ public class UserConsoleUtil {
      * @return non-empty String value
      */
     public static String getCorrectStringValue(final String fieldName) {
-        final Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in, DEFAULT_CHARSET_NAME);
         while (true) {
             try {
                 UserConsoleUtil.print(fieldName + ": ");
@@ -62,7 +64,7 @@ public class UserConsoleUtil {
      * @return Integer positive value
      */
     public static Integer getCorrectNumberValue(final String fieldName) {
-        final Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in, DEFAULT_CHARSET_NAME);
         while (true) {
             try {
                 UserConsoleUtil.print(fieldName + ": ");
@@ -83,7 +85,7 @@ public class UserConsoleUtil {
      * @return Integer positive value
      */
     public static LocalDateTime getCorrectDateTimeValue(final String fieldName) {
-        final Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in, DEFAULT_CHARSET_NAME);
         while (true) {
             try {
                 UserConsoleUtil.print(fieldName + " (DD-MM-YYYY hh:mm  e.g. '01-09-2017 15:01') " + ": ");

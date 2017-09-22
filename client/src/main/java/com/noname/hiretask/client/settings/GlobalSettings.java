@@ -31,4 +31,10 @@ public class GlobalSettings {
      * Timeout before a client stops waiting a response from a server.
      */
     public static final int SOCKET_TIMEOUT_IN_MILLISECONDS = 10 * 1000;
+
+    /**
+     * Default charset name
+     */
+    public static final String DEFAULT_CHARSET_NAME = "UTF-8";
+
 }

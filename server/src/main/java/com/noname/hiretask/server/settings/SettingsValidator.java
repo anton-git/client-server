@@ -76,7 +76,8 @@ public class SettingsValidator {
             log.debug("Error on test file writing.", e);
             throw new DirectoryAccessException("Unable to create files in the directory: " + settings.getDataFolder());
         } finally {
-            testFile.delete();
+            final boolean wasDeleted = testFile.delete();
+            log.debug("Test file was deleted: {}", wasDeleted);
         }
     }
 }

@@ -11,11 +11,10 @@ import com.noname.hiretask.common.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+
+import static com.noname.hiretask.client.settings.GlobalSettings.DEFAULT_CHARSET_NAME;
 
 /**
  * Class for communicating with server.
@@ -45,8 +44,10 @@ public class ServerCommunicator {
         final RequestMessage requestMessage = executor.prepareMessageForServer();
 
         try (final Socket socket = new Socket(GlobalSettings.DEFAULT_HOST, port);
-             final PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-             final BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));) {
+             final Writer writer = new OutputStreamWriter(socket.getOutputStream(), DEFAULT_CHARSET_NAME);
+             final PrintWriter pw = new PrintWriter(writer, true);
+             final BufferedReader br = new BufferedReader(
+                     new InputStreamReader(socket.getInputStream(), DEFAULT_CHARSET_NAME));) {
 
             socket.setSoTimeout(GlobalSettings.SOCKET_TIMEOUT_IN_MILLISECONDS);
 

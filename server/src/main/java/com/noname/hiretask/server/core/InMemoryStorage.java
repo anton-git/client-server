@@ -34,7 +34,7 @@ public class InMemoryStorage {
 
     private static Logger log = LoggerFactory.getLogger(InMemoryStorage.class);
 
-    private static InMemoryStorage instance = new InMemoryStorage();
+    private static final InMemoryStorage instance = new InMemoryStorage();
 
     private Map<String, Bird> internalMap = new ConcurrentHashMap<>();
 
@@ -80,13 +80,14 @@ public class InMemoryStorage {
      * @throws InternalStorageException if bird name is already present in the collection
      */
     public void addBird(final Bird bird) throws InternalStorageException {
-        getReadLock().lock();
+        final Lock lock = getReadLock();
+        lock.lock();
         try {
             if (internalMap.putIfAbsent(bird.getName(), bird) != null) {
                 throw new InternalStorageException("Bird '" + bird.getName() + "' already present in database");
             }
         } finally {
-            getReadLock().unlock();
+            lock.unlock();
         }
     }
 
@@ -96,9 +97,9 @@ public class InMemoryStorage {
      * @throws InternalStorageException if a bird to add a sighting for is not found
      */
     public void addSighting(final Sighting sighting) throws InternalStorageException {
+        final Lock lock = getReadLock();
+        lock.lock();
         try {
-            getReadLock().lock();
-
             final BiFunction<String, Bird, Bird> addSighting = (s, b) -> {
                 b.getSightings().add(sighting);
                 return b;
@@ -109,7 +110,7 @@ public class InMemoryStorage {
                 throw new InternalStorageException("Bird with name '" + sighting.getBird() + "' is not found.");
             }
         } finally {
-            getReadLock().unlock();
+            lock.unlock();
         }
     }
 
@@ -119,14 +120,15 @@ public class InMemoryStorage {
      * @throws InternalStorageException if a bird with the given name is not found
      */
     public void removeBirdWithItsSightings(final String birdName) throws InternalStorageException {
+        final Lock lock = getReadLock();
+        lock.lock();
         try {
-            getReadLock().lock();
             final Bird bird = internalMap.remove(birdName);
             if (bird == null) {
                 throw new InternalStorageException("Bird with name '" + birdName + "' is not found.");
             }
         } finally {
-            getReadLock().unlock();
+            lock.unlock();
         }
     }
 
